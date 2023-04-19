@@ -11,9 +11,10 @@ const Navbar = ({ isLoggedIn, onLogout }) => {
     <nav className={styles.navbar}>
       {isLoggedIn && (
         <>
+          <Link to="/">Home</Link>
           <Link to="/dashboard">Dashboard</Link>
           <Link to="/transactions">Transactions</Link>
-          <Link to="/settings">Settings</Link>
+          <Link to="/link-bank-account">Link Bank Account</Link>
           <Link to="/login" onClick={handleLogout}>
             Logout
           </Link>
