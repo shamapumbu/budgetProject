@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 import Dashboard from './components/Dashboard';
 import HomePage from './components/HomePage';
 import LinkBankAccount from './components/LinkBankAccount';
@@ -12,15 +13,22 @@ import Navbar from './Navbar/Navbar';
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [userId, setUserId] = useState(null);
 
   const handleLogin = (token) => {
     localStorage.setItem('token', token);
-    setIsLoggedIn(true);
+    try {
+      const decoded = jwt_decode(token);
+      setUserId(decoded.id);
+      setIsLoggedIn(true);
+    } catch (err) {
+      console.error('Invalid token:', err);
+    }
   };
-  
 
   const handleLogout = () => {
     setIsLoggedIn(false);
+    setUserId(null);
   };
 
   const RequireAuth = ({ children }) => {
@@ -38,7 +46,7 @@ function App() {
           path="/dashboard"
           element={
             <RequireAuth>
-              <Dashboard />
+              <Dashboard userId={userId} />
             </RequireAuth>
           }
         >
@@ -58,10 +66,11 @@ function App() {
           path="/transactions"
           element={
             <RequireAuth>
-              <Transactions />
+              <Transactions userId={userId} />
             </RequireAuth>
           }
         />
+        
       </Routes>
     </BrowserRouter>
   );

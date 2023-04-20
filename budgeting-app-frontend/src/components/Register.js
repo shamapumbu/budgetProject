@@ -21,6 +21,8 @@ const Register = (props) => {
     try {
       const response = await axios.post(`${process.env.REACT_APP_API_URL}/api/auth/register`, formData);
       console.log(response.data);
+      const token = response.data.token;
+      localStorage.setItem('token', token);
 
       props.onLogin();
       navigate('/dashboard');

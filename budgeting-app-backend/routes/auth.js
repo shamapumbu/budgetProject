@@ -26,20 +26,13 @@ router.post('/register', async (req, res) => {
     await user.save();
 
     const payload = {
-      user: {
-        id: user.id
-      }
+      id: user.id
     };
 
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: 3600 },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 });
+
+    res.status(200).json({ token });
+
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
@@ -63,20 +56,13 @@ router.post('/login', async (req, res) => {
     }
 
     const payload = {
-      user: {
-        id: user.id
-      }
+      id: user.id
     };
 
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: 3600 },
-      (err, token) => {
-        if (err) throw err;
-        res.json({ token });
-      }
-    );
+    const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: 3600 });
+
+    res.status(200).json({ token });
+
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');

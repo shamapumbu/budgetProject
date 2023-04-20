@@ -1,19 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import { getTransactions } from '../services/api';
 
-const Transactions = () => {
+const Transactions = ({ userId }) => {
   const [transactions, setTransactions] = useState([]);
 
   useEffect(() => {
     const fetchTransactions = async () => {
       const startDate = '2021-01-01';
       const endDate = '2021-12-31';
-      const data = await getTransactions(startDate, endDate);
+      const data = await getTransactions(userId, startDate, endDate);
       setTransactions(data);
     };
 
     fetchTransactions();
-  }, []);
+  }, [userId]);
 
   return (
     <div>

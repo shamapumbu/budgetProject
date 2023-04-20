@@ -21,7 +21,8 @@ const Login = (props) => {
     try {
       const response = await axios.post('http://localhost:5000/api/auth/login', formData);
       console.log(response.data);
-
+      const token = response.data.token;
+      localStorage.setItem('token', token);
 
       props.onLogin();
       navigate('/dashboard');
